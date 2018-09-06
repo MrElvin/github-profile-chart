@@ -6,16 +6,18 @@ const koaHistoryApiFallback = require('koa2-history-api-fallback')
 const logger = require('koa-logger')
 const koaRouter = require('koa-router')
 const koaStatic = require('koa-static')
+const koaCors = require('koa2-cors')
 
 const path = require('path')
 const config = require('./project.config.json')
-const api = require('./server/router/api')
+const api = require('./server/router')
 
 const app = new Koa()
 const router = koaRouter()
 
 onerror(app)
 
+app.use(koaCors())
 app.use(bodyparser())
 app.use(json())
 app.use(logger())
@@ -37,7 +39,7 @@ app.on('error', (err, ctx) => {
   ctx.body = { success: false }
 })
 
-app.listen(config.port, () => {
-  console.log(`Server is listening on ${config.port}`)
+app.listen(config.PORT, () => {
+  console.log(`Server is listening on ${config.PORT}`)
 })
 module.exports = app

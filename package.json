@@ -9,6 +9,8 @@
     "dev:server": "nodemon app.js -w app.js -w server"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.2",
     "koa-bodyparser": "^4.2.1",
     "koa-json": "^2.0.2",
@@ -16,14 +18,19 @@
     "koa-onerror": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
     "koa2-history-api-fallback": "0.0.5",
-    "vue": "^2.5.16"
+    "melongrid.css": "^1.0.1",
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.10",
     "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
     "@vue/cli-service": "^3.0.0-rc.10",
     "@vue/eslint-config-standard": "^3.0.0-rc.10",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.16"

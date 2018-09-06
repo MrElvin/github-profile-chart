@@ -1,27 +1,66 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<template lang="pug">
+  div(id="app")
+    transition(name="fade" mode="out-in")
+      router-view
+    footer
+      div
+        | Github-Profile-Chart is built with
+        a(href="https://github.com/vuejs/vue") Vue.js
+        | /
+        a(href="https://github.com/koajs/koa") Koa.js
+        | and
+        a(href="https://github.com/antvis/g2") AntV
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source is on
+        a(href="https://github.com/MrElvin/github-profile-chart") Github
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
-  components: {
-    HelloWorld
-  }
 }
 </script>
 
 <style lang="stylus">
+*
+  box-sizing border-box
+body, html
+  margin 0
+  padding 0
+  width 100%
+  height 100%
+.fade
+  &-enter,
+  &-leave-to
+    opacity 0
+  &-enter-to,
+  &-leave
+    opacity 1
+  &-enter-active,
+  &-leave-active
+    transition opacity .3s linear
 #app
+  height 100%
+  box-sizing border-box
+  padding-bottom 51px
   font-family 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
-  margin-top 60px
+footer
+  width 100%
+  height 50px
+  line-height 50px
+  position fixed
+  bottom 0
+  border-top 1px solid #D9E3E8
+  background #F2FCFD
+  a
+    font-weight bold
+    text-decoration none
+    margin 0 6px
+    color #3B3E3F
+    &:active,
+    &:hover
+      color #68DAD9
 </style>

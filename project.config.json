@@ -1,3 +1,5 @@
 {
-  "port": 3008
+  "PORT": 3008,
+  "TOKEN": "2cc40485cff86edbe7c32e0e5c44cf10cf3a2ba6",
+  "JWT_SECRET": "github-profile-chart"
 }
