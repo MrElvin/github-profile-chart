@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(id="app")
+  #app
     transition(name="fade" mode="out-in")
       router-view
     footer
@@ -28,6 +28,7 @@ body, html
   padding 0
   width 100%
   height 100%
+  background #FAFAFA
 .fade
   &-enter,
   &-leave-to
@@ -46,7 +47,7 @@ body, html
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-align center
-  color #2c3e50
+  color #39373C
 footer
   width 100%
   height 50px
@@ -54,13 +55,14 @@ footer
   position fixed
   bottom 0
   border-top 1px solid #D9E3E8
-  background #F2FCFD
+  background #fff
   a
     font-weight bold
     text-decoration none
     margin 0 6px
-    color #3B3E3F
+    color #39373C
+    transition all .2s
     &:active,
     &:hover
-      color #68DAD9
+      color #37DAE7
 </style>

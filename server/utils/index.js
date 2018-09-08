@@ -1,5 +1,6 @@
 const CONFIG = require('../../project.config.json')
 const axios = require('axios')
+const cheerio = require('cheerio')
 
 axios.interceptors.request.use(
   config => {
@@ -16,32 +17,33 @@ const graphql = async (userName, type, opt = {}) => {
   return axios.post('', {
     query: graphqlQuery(userName, type, opt)
   }).then(res => res.data.data)
-    .catch(err => err)
+    .catch(err => console.log(err))
 }
 
 const graphqlQuery = (userName, type, opt) => {
   switch (type) {
     case 'userName':
       return genQueryUserName(userName, opt)
-    case 'userInfo':
+    case 'userProfile':
       return genQueryUserInfo(userName, opt)
+    case 'userRepos':
+      return genQueryUserRepos(userName, opt)
   }
 }
 
 const genQueryUserName = (userName, opt) => {
   const query = `
     {
-      user(login: ${userName}) {
+      user(login: "${userName}") {
         name,
         login,
-        starredRepositories(first: 10 orderBy: {field: STARRED_AT, direction: DESC} after: ${opt.endCursor === undefined ? '' : opt.endCursor}) {
-          totalCount
+        createdAt,
+        starredRepositories(first: 50 orderBy: {field: STARRED_AT, direction: DESC} after: ${opt.endCursor === undefined ? '' : opt.endCursor}) {
+          totalCount,
           pageInfo {
             hasNextPage
             endCursor
-            startCursor
-            hasPreviousPage
-          }
+          },
           edges {
             node {
               id,
@@ -61,21 +63,92 @@ const genQueryUserName = (userName, opt) => {
 const genQueryUserInfo = (userName, opt) => {
   const query = `
     {
-      user(login: ${userName}) {
+      user(login: "${userName}") {
         avatarUrl,
         bio,
-        company,
         createdAt,
-        email,
         location,
         name,
         login,
         url,
-        websiteUrl
+        following {
+          totalCount
+        },
+        followers {
+          totalCount
+        }
       }
     }
   `
   return query
 }
 
-module.exports.graphql = graphql
+const genQueryUserRepos = (userName, opt) => {
+  const query = `
+    {
+      user(login: "${userName}") {
+        repositories(affiliations: [OWNER, COLLABORATOR], isFork: false, first: 2, orderBy: {field: CREATED_AT, direction: DESC}, after: ${opt.endCursor === undefined ? '' : opt.endCursor}) {
+          totalCount,
+          pageInfo {
+            hasNextPage,
+            endCursor
+          },
+          edges {
+            node {
+              name,
+              url,
+              primaryLanguage {
+                name
+              },
+              stargazers {
+                totalCount
+              },
+              defaultBranchRef{
+                ...on Ref {
+                  target {
+                    ...on Commit{
+                      history(since: "${opt.createdAt}") {
+                        totalCount
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `
+  return query
+}
+
+const convertCommits = (html) => {
+  const $ = cheerio.load(html)
+  const result = []
+  const resultObj = {}
+  const commits = $('.day')
+  for (let i = 0; i < commits.length; i++) {
+    let date = commits.eq(i).data('date')
+    let count = +commits.eq(i).data('count')
+    let datePrefix = date.substring(0, 7)
+    result.push({ date, count, datePrefix })
+  }
+  result.forEach((v, i) => {
+    if (Object.keys(resultObj).indexOf(v.datePrefix) === -1) {
+      resultObj[v.datePrefix] = [v]
+    } else {
+      resultObj[v.datePrefix].push(v)
+    }
+  })
+  return Object.keys(resultObj).map((v, i) => {
+    const date = v
+    const count = resultObj[v].reduce((t, c) => t + c.count, 0)
+    return { date, count }
+  })
+}
+
+module.exports = {
+  graphql,
+  convertCommits
+}
