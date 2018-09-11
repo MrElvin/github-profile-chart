@@ -1,7 +1,7 @@
 <template lang="pug">
   .hello-container
     div
-      div Enter GitHub Username
+      div(@click="test") Enter GitHub Username
       input(v-model="userName" placeholder="ex.'MrElvin'" @keyup.enter="search")
 </template>
 
@@ -10,24 +10,30 @@ export default {
   name: 'Hello',
   data () {
     return {
-      userName: ''
+      userName: '',
     }
   },
   methods: {
-    search () {
+    test () {
+      this.$msg('fadfadf')
+    },
+    search (e) {
+      e.target.blur()
       const userName = this.userName.replace(/()|()/g, '')
       if (userName === '') return
       this.handleUser(userName)
     },
     async handleUser (userName) {
+      this.$emit('changeLoadingListener', true)
       let res = await this.$http.get(`/api/checkstar/${userName}`)
       if (res.data.success) {
+        localStorage.setItem('github-profile-chart-token', res.data.token)
         this.$router.push({
           name: 'Profile',
           params: { userName }
         })
-        localStorage.setItem('github-profile-chart-token', res.data.token)
       } else {
+        this.$emit('changeLoadingListener', false)
         this.$msg.warning(`${userName} 获取 token 失败，先 star 本仓库`)
       }
     }

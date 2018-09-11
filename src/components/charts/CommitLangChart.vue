@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     convertData () {
-      const repos = this.chartData
+      const repos = this.chartData.filter(v =>v.node.defaultBranchRef !== null)
       const tempObj = {}
       repos.map((v, k) => ({
         repoLang: v.node.primaryLanguage ? v.node.primaryLanguage.name : 'Unknown',

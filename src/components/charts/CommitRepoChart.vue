@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     convertData () {
-      const repos = this.chartData
+      const repos = this.chartData.filter(v =>v.node.defaultBranchRef !== null)
       return repos.map((v, i) => {
         return {
           repoName: v.node.name,
@@ -65,6 +65,7 @@ export default {
     try {
       this.initChart()
     } catch (e) {
+      console.log(e)
       this.$msg.warning('缺少必要数据，可能会无法准确显示图表')
     }
   }

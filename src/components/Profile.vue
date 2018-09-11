@@ -81,13 +81,12 @@ export default {
   data () {
     return {
       userName: this.$route.params.userName,
-      userInfo: ''
+      userInfo: '',
     }
   },
   methods: {
     async getUserData () {
       const res = await this.$http.get(`/api/userInfo/${this.userName}`)
-      console.log(res)
       if (res.data.success) {
         this.userInfo = res.data.userInfo
         localStorage.setItem(this.userName, JSON.stringify(this.userInfo))
@@ -100,6 +99,7 @@ export default {
       } else {
         this.userInfo = JSON.parse(userInfo)
       }
+      this.$emit('changeLoadingListener', false)
       document.title = `${this.userName}'s Github Profile Chart`
     }
   },

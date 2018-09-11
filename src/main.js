@@ -9,6 +9,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$http = axios
 Vue.prototype.$msg = UI.Message
+Vue.use(UI.Loading)
 
 Vue.use(router)
 

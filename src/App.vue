@@ -1,7 +1,7 @@
 <template lang="pug">
-  #app
+  #app(v-loading.fullscreen="loading")
     transition(name="fade" mode="out-in")
-      router-view
+      router-view(:loadingStatus="loading" @changeLoadingListener="changLoading")
     rate-limit.rate-limit(:requestsLeft="requestsLeft")
     footer
       div
@@ -24,7 +24,13 @@ export default {
   name: 'app',
   data () {
     return {
-      requestsLeft: 0
+      requestsLeft: 0,
+      loading: false
+    }
+  },
+  methods: {
+    changLoading (loading) {
+      this.loading = loading
     }
   },
   created () {
