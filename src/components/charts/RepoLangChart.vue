@@ -33,7 +33,7 @@ export default {
         container: 'repo-lang-chart-container',
         forceFit: true,
         height: 300,
-        padding: [0, -140, 0, 140]
+        padding: [0, -140, 0, 0]
       })
       chart.legend('lang', {
         useHtml: true,
@@ -43,18 +43,22 @@ export default {
           '<ul class="g2-legend-list" style="list-style-type:none;margin:0;padding:0;text-align=left;"></ul>' +
         '</div>',
         itemTpl: (value, color, checked, index) => {
-          checked = checked ? 'checked' : 'unChecked';
+          checked = checked ? 'checked' : 'unChecked'
           return '<li class="g2-legend-list-item item-' + index + ' ' + checked +
             '" data-value="' + value + '" data-color=' + color +
             ' style="cursor: pointer;margin-bottom:5px;display:block">' +
             '<i class="g2-legend-marker" style="width:10px;height:10px;display:inline-block;margin-right:8px;background-color:' + color + ';"></i>' +
             '<span class="g2-legend-text">' + value + '</span>' +
-            '</li>';
-        },
+            '</li>'
+        }
       })
       chart.tooltip({ showTitle: false })
-      chart.source(this.convertData())
-      chart.coord('polar', { innerRadius: 0.2 })
+      chart.source(this.convertData(), {
+        count: {
+          range: [0.1, 0.8]
+        }
+      })
+      chart.coord('polar', { innerRadius: 0.1 })
       chart.axis(false)
       chart.interval().position('lang*count').color('lang', colorArr)
         .tooltip('lang*count', (lang, count) => ({ name: lang, value: `${count} Repos` }))
@@ -63,7 +67,11 @@ export default {
     }
   },
   mounted () {
-    this.initChart()
+    try {
+      this.initChart()
+    } catch (e) {
+      this.$msg.warning('缺少必要数据，可能会无法准确显示图表')
+    }
   }
 }
 </script>

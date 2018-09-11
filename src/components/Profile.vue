@@ -24,7 +24,7 @@
                 img(width="20px" height="20px" src="../assets/dingwei.png")
             .col-8
               .user-info-item-label Location
-              .user-info-item-value(v-text="userInfo.userProfile.location")
+              .user-info-item-value(v-text="userInfo.userProfile.location || 'Unknown'" style="font-size: 16px")
         .col-xl-3
           .row.user-info-item
             .col-4
@@ -81,7 +81,7 @@ export default {
   data () {
     return {
       userName: this.$route.params.userName,
-      userInfo: '',
+      userInfo: ''
     }
   },
   methods: {
@@ -94,7 +94,6 @@ export default {
       }
     },
     init () {
-      console.log(this.$route.params.userName,)
       const userInfo = localStorage.getItem(this.userName)
       if (!userInfo) {
         this.getUserData()

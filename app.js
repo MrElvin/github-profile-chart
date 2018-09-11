@@ -11,6 +11,7 @@ const koaCors = require('koa2-cors')
 const path = require('path')
 const config = require('./project.config.json')
 const api = require('./server/router')
+require('./server/socket')
 
 const app = new Koa()
 const router = koaRouter()

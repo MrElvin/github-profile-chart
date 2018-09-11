@@ -20,21 +20,18 @@ export default {
       this.handleUser(userName)
     },
     async handleUser (userName) {
-      let res = this.$http.get(`/api/checkstar/${userName}`)
-        .then(res => {
-          console.log('hello', res)
-          if (res.data.success) {
-            this.$router.push({
-              name: 'Profile',
-              params: { userName }
-            })
-            localStorage.setItem('github-profile-chart-token', res.data.token)
-          } else {
-            alert(`${userName} 获取 token 失败，先 star 本仓库`)
-          }
+      let res = await this.$http.get(`/api/checkstar/${userName}`)
+      if (res.data.success) {
+        this.$router.push({
+          name: 'Profile',
+          params: { userName }
         })
+        localStorage.setItem('github-profile-chart-token', res.data.token)
+      } else {
+        this.$msg.warning(`${userName} 获取 token 失败，先 star 本仓库`)
+      }
     }
-  },
+  }
 }
 </script>
 
@@ -69,4 +66,3 @@ export default {
     &:focus::-webkit-input-placeholder
       color transparent
 </style>
-

@@ -31,7 +31,6 @@ export default {
       return Object.keys(tempObj).map(v => ({ lang: v, commits: tempObj[v] }))
     },
     initChart () {
-      const colorArr = ['#BCEBF0', '#FEEDD1', '#E5DFFF', '#C7FAED', '#FED9DE']
       const data = this.convertData()
       const chart = new Chart({
         container: 'commit-lang-chart-container',
@@ -73,7 +72,7 @@ export default {
         }
       })
       chart.line().position('lang*commits').color('#BBEAEE').tooltip(false)
-      chart.point().position('lang*commits').color('#BBEAEE').size(4).shape('circle').opacity(.5).style({
+      chart.point().position('lang*commits').color('#BBEAEE').size(4).shape('circle').opacity(0.5).style({
         stroke: '#fff',
         lineWidth: 1,
         fillOpacity: 1
@@ -84,7 +83,11 @@ export default {
     }
   },
   mounted () {
-    this.initChart()
+    try {
+      this.initChart()
+    } catch (e) {
+      this.$msg.warning('缺少必要数据，可能会无法准确显示图表')
+    }
   }
 }
 </script>

@@ -2,16 +2,20 @@ const jwt = require('jsonwebtoken')
 const utils = require('../utils')
 const CONFIG = require('../../project.config.json')
 const axios = require('axios')
-// const util = require('util')
+const io = require('../socket')
+
+let rate = 5000
 
 const checkStar = async (ctx) => {
   const userName = ctx.params.userName
   let [token, success] = [null, false]
   try {
     let res = await utils.graphql(userName, 'userName')
+    handleRate(res)
     let { hasNextPage, endCursor } = res.user.starredRepositories.pageInfo
     while (hasNextPage) {
       let newRes = await utils.graphql(userName, 'userName', { endCursor })
+      handleRate(res)
       hasNextPage = newRes.user.starredRepositories.pageInfo.hasNextPage
       endCursor = newRes.user.starredRepositories.pageInfo.endCursor
       res.user.starredRepositories.edges = [...res.user.starredRepositories.edges, ...newRes.user.starredRepositories.edges]
@@ -27,7 +31,7 @@ const checkStar = async (ctx) => {
       }, CONFIG.JWT_SECRET, { expiresIn: 60 * 60 }) : null
     }
   } catch (e) {
-    console.log(e)
+    console.log('checkStar API', e)
     ctx.body = {
       success,
       token
@@ -56,15 +60,18 @@ const getUserInfo = async (ctx) => {
 
 const getUserProfile = async (ctx) => {
   const res = await utils.graphql(ctx.token.userName, 'userProfile')
+  handleRate(res)
   return res.user
 }
 
 const getUserRepos = async (ctx) => {
   const { userName, createdAt } = ctx.token
   const res = await utils.graphql(userName, 'userRepos', { createdAt })
+  handleRate(res)
   let { hasNextPage, endCursor } = res.user.repositories.pageInfo
   while (hasNextPage) {
     let newRes = await utils.graphql(userName, 'userRepos', { endCursor, createdAt })
+    handleRate(res)
     hasNextPage = newRes.user.repositories.pageInfo.hasNextPage
     endCursor = newRes.user.repositories.pageInfo.endCursor
     res.user.repositories.edges = [...res.user.repositories.edges, ...newRes.user.repositories.edges]
@@ -76,6 +83,25 @@ const getUserCommits = async (ctx) => {
   const res = await axios.get(`https://github.com/users/${ctx.token.userName}/contributions`)
   return utils.convertCommits(res.data)
 }
+
+const handleRate = (data) => {
+  rate = data.rateLimit.remaining
+  io.emit('rate', rate)
+}
+
+const getRate = () => rate
+
+io.on('connect', (socket) => {
+  socket.on('disconnect', (reason) => {
+    console.log(reason)
+  })
+  socket.on('error', (error) => {
+    console.log(error)
+  })
+  socket.on('getRate', () => {
+    io.emit('rate', getRate())
+  })
+})
 
 const promiseArr = [
   getUserProfile,
@@ -91,5 +117,6 @@ const resultKeyArr = [
 
 module.exports = {
   getUserInfo,
-  checkStar
+  checkStar,
+  getRate
 }

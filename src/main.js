@@ -3,10 +3,12 @@ import App from './App.vue'
 import axios from './utils/axios'
 import router from './router'
 import 'melongrid.css'
+import UI from '@/components/ui'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$http = axios
+Vue.prototype.$msg = UI.Message
 
 Vue.use(router)
 

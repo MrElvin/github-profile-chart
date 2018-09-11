@@ -2,6 +2,7 @@
   #app
     transition(name="fade" mode="out-in")
       router-view
+    rate-limit.rate-limit(:requestsLeft="requestsLeft")
     footer
       div
         | Github-Profile-Chart is built with
@@ -15,8 +16,31 @@
 </template>
 
 <script>
+import RateLimit from '@/components/RateLimit'
+import IO from 'socket.io-client'
+import CONFIG from '../project.config.json'
+
 export default {
   name: 'app',
+  data () {
+    return {
+      requestsLeft: 0
+    }
+  },
+  created () {
+    const host = location.hostname
+    const port = CONFIG.SOCKET_PORT
+    const socket = IO(`http://${host}:${port}`)
+    socket.on('connect', () => {
+      socket.on('rate', (remaining) => {
+        this.requestsLeft = remaining
+      })
+      socket.emit('getRate')
+    })
+  },
+  components: {
+    'rate-limit': RateLimit
+  }
 }
 </script>
 
@@ -48,6 +72,11 @@ body, html
   -moz-osx-font-smoothing grayscale
   text-align center
   color #39373C
+.rate-limit
+  position fixed
+  bottom 80px
+  right 20px
+  box-shadow rgba(0, 0, 0, 0.1) 0px 0px 8px
 footer
   width 100%
   height 50px

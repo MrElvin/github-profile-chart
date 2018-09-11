@@ -34,11 +34,14 @@ const graphqlQuery = (userName, type, opt) => {
 const genQueryUserName = (userName, opt) => {
   const query = `
     {
+      rateLimit {
+        remaining
+      },
       user(login: "${userName}") {
         name,
         login,
         createdAt,
-        starredRepositories(first: 50 orderBy: {field: STARRED_AT, direction: DESC} after: ${opt.endCursor === undefined ? '' : opt.endCursor}) {
+        starredRepositories(first: 100 orderBy: {field: STARRED_AT, direction: DESC} ${opt.endCursor === undefined ? '' : ', after: "' + opt.endCursor + '"'}) {
           totalCount,
           pageInfo {
             hasNextPage
@@ -46,7 +49,6 @@ const genQueryUserName = (userName, opt) => {
           },
           edges {
             node {
-              id,
               name,
               owner {
                 login
@@ -63,6 +65,9 @@ const genQueryUserName = (userName, opt) => {
 const genQueryUserInfo = (userName, opt) => {
   const query = `
     {
+      rateLimit {
+        remaining
+      },
       user(login: "${userName}") {
         avatarUrl,
         bio,
@@ -86,8 +91,11 @@ const genQueryUserInfo = (userName, opt) => {
 const genQueryUserRepos = (userName, opt) => {
   const query = `
     {
+      rateLimit {
+        remaining
+      },
       user(login: "${userName}") {
-        repositories(affiliations: [OWNER, COLLABORATOR], isFork: false, first: 2, orderBy: {field: CREATED_AT, direction: DESC}, after: ${opt.endCursor === undefined ? '' : opt.endCursor}) {
+        repositories(affiliations: [OWNER, COLLABORATOR], isFork: false, first: 100, orderBy: {field: CREATED_AT, direction: DESC} ${opt.endCursor === undefined ? '' : ', after: "' + opt.endCursor + '"'}) {
           totalCount,
           pageInfo {
             hasNextPage,
