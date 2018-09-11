@@ -10,7 +10,7 @@ export default {
   name: 'Hello',
   data () {
     return {
-      userName: '',
+      userName: ''
     }
   },
   methods: {

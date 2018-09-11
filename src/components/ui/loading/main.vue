@@ -1,27 +1,28 @@
 <template lang="pug">
   transition(name="fade" @after-leave="handleAfterLeave")
-    .loading(v-if="visible" :class={'fullscreen': fullscreen})
+    .loading(v-if="visible"
+      :class="[{ 'fullscreen': fullscreen }]")
       .loading-wrapper
         .loading-outer
         .sector
 </template>
 
 <script>
-  export default {
-    name: 'Loading',
-    data () {
-      return {
-        visible: false,
-        fullscreen: false,
-        lock: true
-      }
-    },
-    methods: {
-      handleAfterLeave () {
-        this.$emit('after-leave')
-      }
+export default {
+  name: 'Loading',
+  data () {
+    return {
+      visible: false,
+      fullscreen: true,
+      lock: true
+    }
+  },
+  methods: {
+    handleAfterLeave () {
+      this.$emit('after-leave')
     }
   }
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -42,8 +43,10 @@
   bottom 0
   right 0
   background rgba(255, 255, 255, .8)
-  &.fullscreen
-    position fixed
+.fullscreen
+  position fixed
+  .loading-wrapper
+    transform translate(-50%, -100%)
 .loading-wrapper
   width 100px
   height 100px

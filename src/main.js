@@ -3,6 +3,7 @@ import App from './App.vue'
 import axios from './utils/axios'
 import router from './router'
 import 'melongrid.css'
+import './assets/css/iconfont.css'
 import UI from '@/components/ui'
 
 Vue.config.productionTip = false

@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     convertData () {
-      const repos = this.chartData.filter(v =>v.node.defaultBranchRef !== null)
+      const repos = this.chartData.filter(v => v.node.defaultBranchRef !== null)
       return repos.map((v, i) => {
         return {
           repoName: v.node.name,

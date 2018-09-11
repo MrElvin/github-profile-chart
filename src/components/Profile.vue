@@ -21,7 +21,7 @@
           .row.user-info-item
             .col-4
               .user-info-item-icon.yellow
-                img(width="20px" height="20px" src="../assets/dingwei.png")
+                .iconfont.icon-location
             .col-8
               .user-info-item-label Location
               .user-info-item-value(v-text="userInfo.userProfile.location || 'Unknown'" style="font-size: 16px")
@@ -29,7 +29,7 @@
           .row.user-info-item
             .col-4
               .user-info-item-icon.purple
-                img(width="20px" height="20px" src="../assets/rili.png")
+                .iconfont.icon-rili
             .col-8
               .user-info-item-label Join GitHub At
               .user-info-item-value(v-text="userInfo.userProfile.createdAt.substring(0, 10)")
@@ -37,7 +37,7 @@
           .row.user-info-item
             .col-4
               .user-info-item-icon.green
-                img(width="24px" height="24px" src="../assets/cangku.png")
+                .iconfont.icon-cangku(style="font-size: 24px")
             .col-8
               .user-info-item-label Own Repositories
               .user-info-item-value(v-text="userInfo.userRepos.repositories.totalCount")
@@ -45,7 +45,7 @@
           .row.user-info-item
             .col-4
               .user-info-item-icon.red
-                img(width="20px" height="20px" src="../assets/tijiao.png")
+                .iconfont.icon-tijiao
             .col-8
               .user-info-item-label Contributed Last Year
               .user-info-item-value(v-text="userInfo.userCommits.reduce((v, i) => v + i.count, 0)")
@@ -81,7 +81,7 @@ export default {
   data () {
     return {
       userName: this.$route.params.userName,
-      userInfo: '',
+      userInfo: ''
     }
   },
   methods: {
@@ -175,19 +175,27 @@ export default {
     border-radius 25px
     position relative
     opacity .8
+    line-height 50px
+    text-align center
     img
       position absolute
       left 50%
       top 50%
       transform translate(-50%, -50%)
+    .iconfont
+      font-size 20px
     &.yellow
       background #FFEDD0
+      color #E0AB60
     &.purple
       background #E5E0FF
+      color #695CB6
     &.green
       background #C4F9ED
+      color #4BCDAD
     &.red
       background #FFD9DE
+      color #F1637F
   .user-info-item-label
     font-size 14px
     color #A0A0A0
