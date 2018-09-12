@@ -26,7 +26,6 @@ export default new Router({
         if (!token || jwt.decode(token).userName !== userName) {
           axios.get(`/api/checkstar/${userName}`)
             .then(res => {
-              console.log('again', res)
               if (res.data.success) {
                 localStorage.setItem('github-profile-chart-token', res.data.token)
                 next()

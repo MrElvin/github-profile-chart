@@ -11,7 +11,7 @@
         a(href="https://github.com/koajs/koa") Koa.js
         | and
         a(href="https://github.com/antvis/g2") AntV
-        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source is on
+        | &nbsp;&nbsp;Source is on
         a(href="https://github.com/MrElvin/github-profile-chart") Github
 </template>
 
@@ -85,19 +85,15 @@ body, html
   box-shadow rgba(0, 0, 0, 0.1) 0px 0px 8px
 footer
   width 100%
-  height 50px
-  line-height 50px
+  padding 10px 16px
+  font-size 14px
   position fixed
   bottom 0
   border-top 1px solid #D9E3E8
   background #fff
   a
-    font-weight bold
     text-decoration none
     margin 0 6px
-    color #39373C
+    color #37DAE7
     transition all .2s
-    &:active,
-    &:hover
-      color #37DAE7
 </style>

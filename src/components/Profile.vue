@@ -2,22 +2,22 @@
   .profile-container
     .container(v-if="userInfo !== ''")
       .row
-        .col-xl-2
+        .col-xl-2.col-md-3.avatar-image
           img.user-avatar(:src="userInfo.userProfile.avatarUrl")
-        .col-xl-4.name
+        .col-xl-4.col-md-5.col-sm-8.col-12.name
           .name-list
             a(:href="userInfo.userProfile.url")
               p.user-login(v-text="userInfo.userProfile.login")
             p.user-name(v-text="userInfo.userProfile.name")
           p.user-bio(v-text="userInfo.userProfile.bio")
-        .col-xl-2.col-offset-xl-2.follow
+        .col-xl-2.col-offset-xl-2.col-sm-2.follow
           .follow-count(v-text="userInfo.userProfile.followers.totalCount")
           .follow-label Followers
-        .col-xl-2.follow
+        .col-xl-2.col-sm-2.col-6.follow
           .follow-count(v-text="userInfo.userProfile.following.totalCount")
           .follow-label Following
       .row.user-info
-        .col-xl-3
+        .col-xl-3.col-md-6.col-12
           .row.user-info-item
             .col-4
               .user-info-item-icon.yellow
@@ -25,7 +25,7 @@
             .col-8
               .user-info-item-label Location
               .user-info-item-value(v-text="userInfo.userProfile.location || 'Unknown'" style="font-size: 16px")
-        .col-xl-3
+        .col-xl-3.col-md-6.col-12
           .row.user-info-item
             .col-4
               .user-info-item-icon.purple
@@ -33,7 +33,7 @@
             .col-8
               .user-info-item-label Join GitHub At
               .user-info-item-value(v-text="userInfo.userProfile.createdAt.substring(0, 10)")
-        .col-xl-3
+        .col-xl-3.col-md-6.col-12
           .row.user-info-item
             .col-4
               .user-info-item-icon.green
@@ -41,7 +41,7 @@
             .col-8
               .user-info-item-label Own Repositories
               .user-info-item-value(v-text="userInfo.userRepos.repositories.totalCount")
-        .col-xl-3
+        .col-xl-3.col-md-6.col-12
           .row.user-info-item
             .col-4
               .user-info-item-icon.red
@@ -54,17 +54,17 @@
           .user-commit-title Contributions in the last year
           commit-chart.commit-chart(:chart-data="userInfo.userCommits")
       .row.chart-row
-        .col-md-6
+        .col-lg-6.col-12
           .normal-chart-title Stars per Repo(top 10)
           star-repo-chart(:chart-data="userInfo.userRepos.repositories.edges")
-        .col-md-6
+        .col-lg-6.col-12
           .normal-chart-title Commits per Repo(top 10)
           commit-repo-chart(:chart-data="userInfo.userRepos.repositories.edges")
       .row.chart-row
-        .col-md-6
+        .col-lg-6.col-12
           .normal-chart-title Repos per Language
           repo-lang-chart(:chart-data="userInfo.userRepos.repositories.edges")
-        .col-md-6
+        .col-lg-6.col-12
           .normal-chart-title Commits per Language
           commit-lang-chart(:chart-data="userInfo.userRepos.repositories.edges")
 </template>
@@ -86,10 +86,18 @@ export default {
   },
   methods: {
     async getUserData () {
-      const res = await this.$http.get(`/api/userInfo/${this.userName}`)
-      if (res.data.success) {
-        this.userInfo = res.data.userInfo
-        localStorage.setItem(this.userName, JSON.stringify(this.userInfo))
+      try {
+        const res = await this.$http.get(`/api/userInfo/${this.userName}`)
+        if (res.data.success) {
+          this.userInfo = res.data.userInfo
+          localStorage.setItem(this.userName, JSON.stringify(this.userInfo))
+          this.$emit('changeLoadingListener', false)
+        }
+      } catch (e) {
+        this.$router.push({ name: 'Hello' }, () => {
+          this.$msg.error(`获取${this.userName}数据失败，请再次获取`)
+        })
+        this.$emit('changeLoadingListener', false)
       }
     },
     init () {
@@ -98,8 +106,8 @@ export default {
         this.getUserData()
       } else {
         this.userInfo = JSON.parse(userInfo)
+        this.$emit('changeLoadingListener', false)
       }
-      this.$emit('changeLoadingListener', false)
       document.title = `${this.userName}'s Github Profile Chart`
     }
   },
@@ -117,9 +125,32 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@media (max-width: 576px)
+  #app
+    .profile-container
+      padding-top 64px
+      .follow
+        display none
+@media (max-width: 767px)
+  .profile-container
+    .avatar-image
+      display none
+    .follow
+      .follow-count
+        font-size 24px
+      .follow-label
+        font-size 12px
+@media (max-width: 1200px)
+  .profile-container
+    .user-info-item
+      .col-4
+        display flex
+        justify-content center
+      .col-8
+        display flex
+        flex-direction column
 .profile-container
   padding 96px 0 50px 0
-  // height 100%
 .container
   height 100%
 .user-avatar
@@ -159,7 +190,10 @@ export default {
     font-weight bold
 .user-info
   margin-top 32px
+  & > div
+    margin-top 10px
 .user-info-item
+  border 1px solid rgba(0, 0, 0, 0.05)
   background #FFF
   box-shadow rgba(0, 0, 0, 0.05) 0px 0px 40px
   height 90px
@@ -233,11 +267,23 @@ export default {
 
 <style lang="stylus">
 .g2-legend
+  width 50% !important
+  max-width 300px !important
+  height 300px
   left 0 !important
+  top 50% !important
+  transform translateY(-50%)
+  text-align left
 .g2-legend-list
+  overflow hidden
+  height 260px
   display flex
+  flex-wrap wrap
   flex-direction column
   align-items flex-start
 .g2-legend-list li
-  display block !important
+  display flex !important
+  margin-right 0 !important
+  height 16px
+  align-items center
 </style>

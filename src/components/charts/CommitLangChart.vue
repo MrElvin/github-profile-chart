@@ -36,7 +36,7 @@ export default {
         container: 'commit-lang-chart-container',
         forceFit: true,
         height: 300,
-        padding: [20, 0, 20, 0]
+        padding: 45
       })
       chart.legend('lang', {
         position: 'left-center',
@@ -50,7 +50,7 @@ export default {
           tickCount: 5
         }
       })
-      chart.coord('polar', { radius: 0.7 })
+      chart.coord('polar', { radius: 0.6 })
       chart.axis('lang', {
         line: null,
         tickLine: null,

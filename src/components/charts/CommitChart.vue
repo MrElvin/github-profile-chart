@@ -26,6 +26,16 @@ export default {
           type: 'time'
         }
       })
+      chart.axis('date', {
+        label: {
+          textStyle: {
+            fontSize: '11'
+          },
+          formatter: val => {
+            return val.substring(0, 7)
+          }
+        }
+      })
       chart.tooltip({
         showTitle: false,
         crosshairs: {

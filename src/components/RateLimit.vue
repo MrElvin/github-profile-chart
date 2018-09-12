@@ -1,6 +1,6 @@
 <template lang="pug">
   .rate-limit-container
-    .camera
+    .camera(@click="capturePic")
       .iconfont.icon-xiangji
     p
       strong {{requestsLeft}}
@@ -8,17 +8,44 @@
 </template>
 
 <script>
+import html2canvas from 'html2canvas'
+
 export default {
+  name: 'RateLimit',
   props: {
     requestsLeft: {
       type: Number,
       default: 0
+    }
+  },
+  methods: {
+    capturePic () {
+      const dom = document.querySelectorAll('.profile-container')[0]
+      if (dom) {
+        html2canvas(dom, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#F9F9F9'
+        })
+          .then(canvas => {
+            const a = document.createElement('a')
+            const url = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+            a.href = url
+            a.download = `${this.$route.params.userName}'s GitHub Profile.png`
+            a.click()
+          })
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+@media (max-width: 576px)
+  #app
+    .rate-limit-container
+      display none
 .rate-limit-container
   display flex
   justify-content center
@@ -44,13 +71,14 @@ export default {
       color #FFF
   .iconfont
     font-size 32px
-    line-height 54px
+    line-height 56px
 img
   width 32px
   height 32px
   margin-top 12px
 p
   width 120px
+  padding-left 4px
 strong
   font-weight bold
   color #33D3E1

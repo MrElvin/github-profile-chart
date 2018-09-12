@@ -42,6 +42,24 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@media (max-width: 767px)
+  #app
+    .hello-container
+      & > div
+        font-size 24px
+      input
+        width 260px
+        font-size 18px
+@media (max-width: 576px)
+  #app
+    .hello-container
+      & > div
+        font-size 18px
+      input
+        width 200px
+        font-size 14px
+        height 36px
+        line-height 36px
 .hello-container
   height 100%
   position relative

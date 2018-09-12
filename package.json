@@ -12,6 +12,7 @@
     "@antv/g2": "^3.2.7",
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
+    "html2canvas": "^1.0.0-alpha.12",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.2",
     "koa-bodyparser": "^4.2.1",

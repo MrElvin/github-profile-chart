@@ -33,7 +33,7 @@ export default {
         container: 'repo-lang-chart-container',
         forceFit: true,
         height: 300,
-        padding: [0, -140, 0, 0]
+        padding: { left: 240 }
       })
       chart.legend('lang', {
         useHtml: true,
@@ -55,7 +55,7 @@ export default {
       chart.tooltip({ showTitle: false })
       chart.source(this.convertData(), {
         count: {
-          range: [0.1, 0.8]
+          range: [0.1, 0.9]
         }
       })
       chart.coord('polar', { innerRadius: 0.1 })

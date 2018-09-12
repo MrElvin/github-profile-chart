@@ -32,11 +32,10 @@ export default {
         container: 'star-repo-chart-container',
         forceFit: true,
         height: 300,
-        padding: [0, -140, 0, 0]
+        padding: { left: 240 }
       })
       chart.legend('repoName', {
         useHtml: true,
-        position: 'left-center',
         offsetX: 30,
         containerTpl: '<div class="g2-legend" style="height:auto;width:auto;font-size: 12px;line-height:20px;color:rgb(140,140,140);">' +
           '<ul class="g2-legend-list" style="list-style-type:none;margin:0;padding:0;text-align=left;"></ul>' +
@@ -53,7 +52,7 @@ export default {
       })
       chart.tooltip({ showTitle: false })
       chart.source(this.convertData())
-      chart.coord('theta', { radius: 0.7 })
+      chart.coord('theta', { radius: 0.9 })
       chart.intervalStack().position('repoStars').color('repoName', colorArr)
         .tooltip('repoName*repoStars', (repoName, repoStars) => ({ name: repoName, value: `${repoStars} Stars` }))
         .style({ lineWidth: 1, stroke: '#fff' })

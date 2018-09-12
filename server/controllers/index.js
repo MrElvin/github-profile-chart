@@ -12,13 +12,15 @@ const checkStar = async (ctx) => {
   try {
     let res = await utils.graphql(userName, 'userName')
     handleRate(res)
-    let { hasNextPage, endCursor } = res.user.starredRepositories.pageInfo
-    while (hasNextPage) {
-      let newRes = await utils.graphql(userName, 'userName', { endCursor })
-      handleRate(res)
-      hasNextPage = newRes.user.starredRepositories.pageInfo.hasNextPage
-      endCursor = newRes.user.starredRepositories.pageInfo.endCursor
-      res.user.starredRepositories.edges = [...res.user.starredRepositories.edges, ...newRes.user.starredRepositories.edges]
+    if (CONFIG.IS_STAR_REQUIRED) {
+      let { hasNextPage, endCursor } = res.user.starredRepositories.pageInfo
+      while (hasNextPage) {
+        let newRes = await utils.graphql(userName, 'userName', { endCursor })
+        handleRate(res)
+        hasNextPage = newRes.user.starredRepositories.pageInfo.hasNextPage
+        endCursor = newRes.user.starredRepositories.pageInfo.endCursor
+        res.user.starredRepositories.edges = [...res.user.starredRepositories.edges, ...newRes.user.starredRepositories.edges]
+      }
     }
     success = CONFIG.IS_STAR_REQUIRED
       ? res.user.starredRepositories.edges.some(r => r.node.name === 'github-profile-chart' && r.node.owner.login === 'MrElvin')
