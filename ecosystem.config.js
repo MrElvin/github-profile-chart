@@ -18,7 +18,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:MrElvin/github-profile-chart.git',
       path: '/home/breezymelon/github-profile-chart',
-      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy': 'git pull && ./run.sh && pm2 reload ecosystem.config.js --env production'
     },
     dev: {
       user: 'breezymelon',
@@ -26,7 +26,7 @@ module.exports = {
       ref: 'origin/dev',
       repo: 'git@github.com:MrElvin/github-profile-chart.git',
       path: '/home/breezymelon/github-profile-chart-dev',
-      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env dev',
+      'post-deploy': 'git pull && ./run.sh && pm2 reload ecosystem.config.js --env develop',
       env: {
         NODE_ENV: 'dev'
       }
