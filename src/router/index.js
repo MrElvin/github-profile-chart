@@ -33,8 +33,8 @@ export default new Router({
                 next(vm => vm.$router.push({ name: 'Hello' }, vm.$msg.warning('获取 Token 值出错')))
               }
             })
-            .catch(err => {
-              console.log(err)
+            .catch(() => {
+              next(vm => vm.$router.push({ name: 'Hello' }, vm.$msg.warning('获取 Token 值出错')))
             })
         } else {
           next()
