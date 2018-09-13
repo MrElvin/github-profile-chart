@@ -17,7 +17,10 @@ const graphql = async (userName, type, opt = {}) => {
   return axios.post('', {
     query: graphqlQuery(userName, type, opt)
   }).then(res => res.data.data)
-    .catch(err => console.log('GRAPHQL', err))
+    .catch(err => {
+      console.log('GRAPHQL', err)
+      console.log('PROCESSENV', process.env)
+    })
 }
 
 const graphqlQuery = (userName, type, opt) => {
