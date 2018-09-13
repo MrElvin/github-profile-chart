@@ -5,10 +5,7 @@ const CONFIG = require('../../project.config.json')
 axios.interceptors.request.use(
   config => {
     const TOKEN = process.env.NODE_ENV === 'production' ? process.env.TOKEN : CONFIG.TOKEN
-    console.log('Author', TOKEN)
     config.headers.Authorization = `Bearer ${TOKEN}`
-    // config.headers['Authorization'] = 'Bearer ' + process.env.NODE_ENV === 'production' ? process.env.TOKEN : CONFIG.TOKEN
-    console.log(config.headers['Authorization'])
     config.baseURL = 'https://api.github.com/graphql'
     console.log('CONFIG', config)
     return config
@@ -23,8 +20,7 @@ const graphql = async (userName, type, opt = {}) => {
     query: graphqlQuery(userName, type, opt)
   }).then(res => res.data.data)
     .catch(err => {
-      console.log('GRAPHQL', err)
-      console.log('PROCESSENV', process.env)
+      console.log('GRAPHQL_ERR: ', err)
     })
 }
 
