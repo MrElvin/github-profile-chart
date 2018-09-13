@@ -22,7 +22,6 @@ app.use(koaCors())
 app.use(bodyparser())
 app.use(json())
 app.use(logger())
-app.use(koaStatic(path.join(__dirname, '/public')))
 
 app.use(async (ctx, next) => {
   const start = new Date()
@@ -34,6 +33,8 @@ app.use(async (ctx, next) => {
 router.use('/api', api.routes(), api.allowedMethods())
 app.use(router.routes(), router.allowedMethods())
 app.use(koaHistoryApiFallback())
+
+app.use(koaStatic(path.join(__dirname, '/dist')))
 
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

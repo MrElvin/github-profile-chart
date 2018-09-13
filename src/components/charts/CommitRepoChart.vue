@@ -64,7 +64,6 @@ export default {
     try {
       this.initChart()
     } catch (e) {
-      console.log(e)
       this.$msg.warning('缺少必要数据，可能会无法准确显示图表')
     }
   }
