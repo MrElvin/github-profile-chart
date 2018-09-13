@@ -8,7 +8,7 @@ axios.interceptors.request.use(
     config.headers['Authorization'] = 'Bearer ' + process.env.NODE_ENV === 'production' ? process.env.TOKEN : CONFIG.TOKEN
     console.log(config.headers['Authorization'])
     config.baseURL = 'https://api.github.com/graphql'
-    console.log('CONFIG', config.headers['Authorization'])
+    console.log('CONFIG', config)
     return config
   },
   err => {
