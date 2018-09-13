@@ -1,7 +1,6 @@
 {
   "PORT": 3008,
   "SOCKET_PORT": 3009,
-  "TOKEN": "566c8af9dc46fac2d371dc32a9ac0074ca62ca75",
   "JWT_SECRET": "github-profile-chart",
   "IS_STAR_REQUIRED": false
 }

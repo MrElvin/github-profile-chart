@@ -4,7 +4,8 @@ module.exports = {
       name: 'github-profile-chart',
       script: 'app.js',
       env: {
-        COMMON_VARIABLE: 'true'
+        COMMON_VARIABLE: 'true',
+        TOKEN: '5471d6797b7db0591859d2b87fe71aa4b297af0c'
       },
       env_production: {
         NODE_ENV: 'production'

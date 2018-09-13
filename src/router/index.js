@@ -30,9 +30,7 @@ export default new Router({
                 localStorage.setItem('github-profile-chart-token', res.data.token)
                 next()
               } else {
-                next({
-                  name: 'Hello'
-                })
+                next(vm => vm.$router.push({ name: 'Hello' }, vm.$msg.warning('获取 Token 值出错')))
               }
             })
             .catch(err => {

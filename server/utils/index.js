@@ -1,10 +1,9 @@
-const CONFIG = require('../../project.config.json')
 const axios = require('axios')
 const cheerio = require('cheerio')
 
 axios.interceptors.request.use(
   config => {
-    config.headers['Authorization'] = 'Bearer ' + CONFIG.TOKEN
+    config.headers['Authorization'] = 'Bearer ' + process.env.TOKEN
     config.baseURL = 'https://api.github.com/graphql'
     return config
   },
@@ -17,7 +16,7 @@ const graphql = async (userName, type, opt = {}) => {
   return axios.post('', {
     query: graphqlQuery(userName, type, opt)
   }).then(res => res.data.data)
-    .catch(err => console.log(err))
+    .catch(err => console.log('GRAPHQL', err))
 }
 
 const graphqlQuery = (userName, type, opt) => {
