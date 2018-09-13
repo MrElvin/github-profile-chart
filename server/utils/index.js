@@ -1,9 +1,10 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
+const CONFIG = require('../../project.config.json')
 
 axios.interceptors.request.use(
   config => {
-    config.headers['Authorization'] = 'Bearer ' + process.env.TOKEN
+    config.headers['Authorization'] = 'Bearer ' + process.env.NODE_ENV === 'production' ? process.env.TOKEN : CONFIG.TOKEN
     config.baseURL = 'https://api.github.com/graphql'
     return config
   },
