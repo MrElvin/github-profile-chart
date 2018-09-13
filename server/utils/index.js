@@ -4,7 +4,9 @@ const CONFIG = require('../../project.config.json')
 
 axios.interceptors.request.use(
   config => {
+    console.log('Author', process.env.NODE_ENV === 'production' ? process.env.TOKEN : CONFIG.TOKEN)
     config.headers['Authorization'] = 'Bearer ' + process.env.NODE_ENV === 'production' ? process.env.TOKEN : CONFIG.TOKEN
+    console.log(config.headers['Authorization'])
     config.baseURL = 'https://api.github.com/graphql'
     return config
   },
