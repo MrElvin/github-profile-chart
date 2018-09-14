@@ -267,7 +267,7 @@ export default {
 
 <style lang="stylus">
 .g2-legend
-  width 50% !important
+  width 60% !important
   max-width 300px !important
   height 300px
   left 0 !important
@@ -281,9 +281,12 @@ export default {
   flex-wrap wrap
   flex-direction column
   align-items flex-start
+  justify-content center
 .g2-legend-list li
   display flex !important
   margin-right 0 !important
   height 16px
   align-items center
+.g2-legend-text
+  line-height 10px
 </style>

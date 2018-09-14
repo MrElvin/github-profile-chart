@@ -32,7 +32,7 @@ export default {
       const chart = new Chart({
         container: 'repo-lang-chart-container',
         forceFit: true,
-        height: 300,
+        height: 280,
         padding: { left: 240 }
       })
       chart.legend('lang', {

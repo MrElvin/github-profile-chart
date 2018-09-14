@@ -1,7 +1,7 @@
 <template lang="pug">
   .hello-container
     div
-      div Enter GitHub Username
+      div(@click="test") Enter GitHub Username
       input(v-model="userName" placeholder="ex.'MrElvin'" @keyup.enter="search")
 </template>
 
@@ -14,6 +14,9 @@ export default {
     }
   },
   methods: {
+    test () {
+      this.$msg.warning('fadfadfasd')
+    },
     search (e) {
       e.target.blur()
       const userName = this.userName.replace(/()|()/g, '')
@@ -23,7 +26,7 @@ export default {
     async handleUser (userName) {
       this.$emit('changeLoadingListener', true)
       let res = await this.$http.get(`/api/checkstar/${userName}`)
-      if (res.data.success) {
+      if (res.data.success && res.data.token !== null) {
         localStorage.setItem('github-profile-chart-token', res.data.token)
         this.$router.push({
           name: 'Profile',
@@ -31,8 +34,19 @@ export default {
         })
       } else {
         this.$emit('changeLoadingListener', false)
-        this.$msg.warning(`${userName} 获取 token 失败，先 star 本仓库`)
+        this.$msg.warning(`未能查到该 GitHub 用户`)
       }
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (to.params.reason === 'redirect') {
+      next(vm => {
+        vm.$nextTick(() => {
+          vm.$msg.warning(`未能查到该 GitHub 用户`)
+        })
+      })
+    } else {
+      next()
     }
   }
 }
@@ -53,14 +67,20 @@ export default {
       & > div
         font-size 18px
       input
+        box-sizing content-box
         width 200px
         font-size 14px
-        height 36px
-        line-height 36px
+        height 12px
+        line-height 12px
+        padding 12px 0
+        &::-webkit-input-placeholder
+          line-height 16px
+        &:focus
+          box-shadow 0px 0px 64px rgba(55, 218, 231, .3), 0px 0px 32px rgba(55, 218, 231, .6)
 .hello-container
   height 100%
   position relative
-  color #39373C
+  color #39373c
   & > div
     position absolute
     left 50%
@@ -68,6 +88,7 @@ export default {
     transform translateX(-50%)
     font-size 36px
   input
+    position relative
     width 380px
     height 50px
     line-height 50px
@@ -79,11 +100,12 @@ export default {
     border none
     border-radius 25px
     transition box-shadow .3s
-    box-shadow rgba(0, 0, 0, 0.1) 0px 0px 8px
+    -webkit-appearance none
+    box-shadow 0px 0px 8px rgba(0, 0, 0, 0.1)
     &::-webkit-input-placeholder
       color #ACB4B8
     &:focus
-      box-shadow rgba(55, 218, 231, .3) 0px 0px 128px, rgba(55, 218, 231, .6) 0px 0px 64px
+      box-shadow 0px 0px 128px rgba(55, 218, 231, .3), 0px 0px 64px rgba(55, 218, 231, .6)
     &:focus::-webkit-input-placeholder
       color transparent
 </style>

@@ -50,8 +50,7 @@ export default {
         const loading = new LoadingContructor({
           el: document.createElement('div'),
           data: {
-            fullscreen: !!binding.modifiers.fullscreen,
-            lock: !!binding.modifiers.lock
+            fullscreen: !!binding.modifiers.fullscreen
           }
         })
         el.instance = loading

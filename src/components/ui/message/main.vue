@@ -38,15 +38,31 @@ export default {
       } else {
         throw new Error('Message Duration must more than 0!')
       }
+    },
+    destroyElement () {
+      this.$el.removeEventListener('transitionend', this.destroyElement)
+      this.$destroy(true)
+      document.body.removeChild(this.$el)
     }
   },
   mounted () {
     this.startTimer()
+    this.$el.addEventListener('transitionend', this.destroyElement)
+  },
+  beforeDestroy () {
+    this.$el.removeEventListener('transitionend', this.destroyElement)
   }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
+@media (max-width: 576px)
+  div.message-container
+    width 240px
+    margin-left -120px
+    padding 10px
+    border 1px solid
+    font-size 14px
 .message-fade
   &-enter,
   &-leave-to
@@ -60,6 +76,9 @@ export default {
   &-leave-active
     transition all .5s ease-out
 .message-container
+  font-family 'Avenir', Helvetica, Arial, sans-serif
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
   width 400px
   margin-left -200px
   padding 16px

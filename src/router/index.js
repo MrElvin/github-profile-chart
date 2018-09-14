@@ -23,18 +23,28 @@ export default new Router({
       beforeEnter (to, from, next) {
         const userName = to.params.userName
         const token = localStorage.getItem('github-profile-chart-token')
-        if (!token || jwt.decode(token).userName !== userName) {
+        if (!token || (jwt.decode(token) && jwt.decode(token).userName !== userName)) {
           axios.get(`/api/checkstar/${userName}`)
             .then(res => {
-              if (res.data.success) {
+              if (res.data.success && res.data.token !== null) {
                 localStorage.setItem('github-profile-chart-token', res.data.token)
                 next()
               } else {
-                next(vm => vm.$router.push({ name: 'Hello' }, vm.$msg.warning('获取 Token 值出错')))
+                next({
+                  name: 'Hello',
+                  params: {
+                    reason: 'redirect'
+                  }
+                })
               }
             })
             .catch(() => {
-              next(vm => vm.$router.push({ name: 'Hello' }, vm.$msg.warning('获取 Token 值出错')))
+              next({
+                name: 'Hello',
+                params: {
+                  reason: 'redirect'
+                }
+              })
             })
         } else {
           next()

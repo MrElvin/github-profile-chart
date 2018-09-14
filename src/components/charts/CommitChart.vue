@@ -21,9 +21,14 @@ export default {
         height: 300,
         padding: [20, 40, 50, 40]
       })
-      chart.source(this.chartData, {
+      const convertData = this.chartData.map(v => ({
+        date: v.date + '-01',
+        count: v.count
+      }))
+      chart.source(convertData, {
         date: {
-          type: 'time'
+          type: 'time',
+          mask: 'YYYY-MM'
         }
       })
       chart.axis('date', {

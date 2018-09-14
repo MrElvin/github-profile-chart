@@ -14,9 +14,10 @@ const Message = (options) => {
   instance = new MessageConstructor({
     data: options
   })
-  document.body.appendChild(instance.$mount().$el)
-  instance.visible = true
-  return instance
+  instance.vm = instance.$mount()
+  document.body.appendChild(instance.vm.$el)
+  instance.vm.visible = true
+  return instance.vm
 }
 
 ['success', 'info', 'warning', 'error'].forEach(type => {

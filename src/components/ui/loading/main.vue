@@ -2,9 +2,9 @@
   transition(name="fade" @after-leave="handleAfterLeave")
     .loading(v-if="visible"
       :class="[{ 'fullscreen': fullscreen }]")
-      .loading-wrapper
-        .loading-outer
-        .sector
+      .spinner
+        .double-bounce1
+        .double-bounce2
 </template>
 
 <script>
@@ -13,8 +13,7 @@ export default {
   data () {
     return {
       visible: false,
-      fullscreen: true,
-      lock: true
+      fullscreen: true
     }
   },
   methods: {
@@ -42,121 +41,39 @@ export default {
   top 0
   bottom 0
   right 0
+  z-index 1000
   background rgba(255, 255, 255, .8)
 .fullscreen
   position fixed
-  .loading-wrapper
+  .spinner
     transform translate(-50%, -100%)
-.loading-wrapper
-  width 100px
-  height 100px
+.spinner
+  width 60px
+  height 60px
   position absolute
   left 50%
   top 50%
   transform translate(-50%, -50%)
-.loading-outer
-  width 100px
-  height 100px
-  border-top 1px solid #1ADAE5
-  border-left 1px solid #1ADAE5
-  border-right 1px solid #1ADAE5
-  border-bottom 1px solid transparent
+.double-bounce1,
+.double-bounce2
+  width 100%
+  height 100%
   border-radius 50%
-  position relative
-  transform rotate(180deg)
-  animation outRotate 1.5s infinite linear
-.sector
+  background-color #33D3E1
+  opacity 0.6
   position absolute
-  width 40px
-  height 40px
-  top 50%
-  left 50%
-  border-radius 50%
-  margin-top -19px
-  margin-left -19px
-  animation sector-rotate 3s infinite linear
-.sector::before,
-.sector::after
-  content ""
-  position absolute
-  left 0
   top 0
-  width 40px
-  height 40px
-  border-radius 50%
-  transform rotate(0deg)
-  clip rect(0px, 20px, 40px, 0px)
-.sector::before
-  transform rotate(0deg)
-  animation sector-b-rotate 3s infinite linear
-.sector::after
-  transform rotate(0deg)
-  animation sector-a-rotate 3s infinite linear
-@keyframes sector-rotate {
-  0% {
-    background: #B3EFF2;
-  }
-  50% {
-    background: #B3EFF2;
-  }
-  50.0001% {
-    background: #1ADAE5;
-  }
-  100% {
-    background: #1ADAE5;
-  }
-}
-@keyframes sector-b-rotate {
-  0% {
-    background: #1ADAE5;
-  }
-  50% {
-    background: #1ADAE5;
-  }
-  50.0001% {
-    background: #B3EFF2;
-  }
-  100% {
-    background: #B3EFF2;
-  }
-}
-
-@keyframes sector-a-rotate {
-  0% {
-    background: #B3EFF2;
-    transform: rotate(0deg);
-  }
-  24.999% {
-    background: #B3EFF2;
-    transform: rotate(-180deg);
-  }
-  25% {
-    background: #1ADAE5;
-    transform: rotate(0deg);
-  }
-  50% {
-    background: #1ADAE5;
-    transform: rotate(-180deg);
-  }
-  50.001% {
-    background: #1ADAE5;
-    transform: rotate(0deg);
-  }
-  74.999% {
-    background: #1ADAE5;
-    transform: rotate(-180deg);
-  }
-  75% {
-    background: #B3EFF2;
-    transform: rotate(0deg);
-  }
-  100% {
-    background: #B3EFF2;
-    transform: rotate(-180deg);
-  }
-}
-@keyframes outRotate {
-  from {transform: rotate(0deg)}
-  to {transform: rotate(360deg)}
-}
+  left 0
+  -webkit-animation bounce 2.0s infinite ease-in-out
+  animation bounce 2.0s infinite ease-in-out
+.double-bounce2
+  -webkit-animation-delay -1.0s
+  animation-delay -1.0s
+@keyframes bounce
+  0%, 100%
+    transform scale(0.0)
+    -webkit-transform scale(0.0)
+  50%
+    transform scale(1.0)
+    -webkit-transform scale(1.0)
 </style>
