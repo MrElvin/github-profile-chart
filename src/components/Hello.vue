@@ -1,7 +1,7 @@
 <template lang="pug">
   .hello-container
     div
-      div(@click="test") Enter GitHub Username
+      div Enter GitHub Username
       input(v-model="userName" placeholder="ex.'MrElvin'" @keyup.enter="search")
 </template>
 
@@ -14,9 +14,6 @@ export default {
     }
   },
   methods: {
-    test () {
-      this.$msg.warning('fadfadfasd')
-    },
     search (e) {
       e.target.blur()
       const userName = this.userName.replace(/()|()/g, '')
