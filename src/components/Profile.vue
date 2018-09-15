@@ -95,7 +95,7 @@ export default {
         }
       } catch (e) {
         this.$router.push({ name: 'Hello' }, () => {
-          this.$msg.error(`获取${this.userName}数据失败，请再次获取`)
+          this.$msg.error(`Failed to get ${this.userName} data, please try again`)
         })
         this.$emit('changeLoadingListener', false)
       }
