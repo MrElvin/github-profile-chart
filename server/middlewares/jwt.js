@@ -11,7 +11,7 @@ module.exports = async (ctx, next) => {
     console.log(e)
     ctx.body = {
       success: false,
-      message: 'Token 过期或未 star 本项目'
+      message: 'Token expired Or Have not starred this repository'
     }
   }
 }

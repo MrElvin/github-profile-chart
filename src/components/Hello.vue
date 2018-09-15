@@ -31,7 +31,7 @@ export default {
         })
       } else {
         this.$emit('changeLoadingListener', false)
-        this.$msg.warning(`未能查到该 GitHub 用户`)
+        this.$msg.warning(`Failed to find the GitHub user`)
       }
     }
   },
@@ -39,7 +39,7 @@ export default {
     if (to.params.reason === 'redirect') {
       next(vm => {
         vm.$nextTick(() => {
-          vm.$msg.warning(`未能查到该 GitHub 用户`)
+          vm.$msg.warning(`Failed to find the GitHub user`)
         })
       })
     } else {
