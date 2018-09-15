@@ -26,11 +26,11 @@ Live at: [http://ghprofile.breezymelon.com/](http://ghprofile.breezymelon.com/)
 
 ### Your beautiful profile
 
-![MrElvin's Github Profile](http://pic.breezymelon.com/github-profile-chart/MrElvin's GitHub Profile.png)
+![MrElvin's Github Profile](https://raw.githubusercontent.com/MrElvin/github-profile-chart/master/example/MrElvin-GitHub-Profile.png)
 
 ### Save and Download your profile as an image
 
-![MrElvin's Github Profile](http://pic.breezymelon.com/github-profile-chart/MrElvin's GitHub Profile.png)
+![MrElvin's Github Profile Capture](https://raw.githubusercontent.com/MrElvin/github-profile-chart/master/example/MrElvin-capture.png)
 
 ## Run locally
 
